@@ -3,6 +3,9 @@ import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/res/components/custom_button.dart';
+import 'package:flutter_application_1/views/book_appointment_view/book_appointment_view.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
 class DoctorProfileView extends StatelessWidget {
   const DoctorProfileView({super.key});
@@ -119,7 +122,9 @@ class DoctorProfileView extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(10.0),
         child: CustomButton(
-          onTap: (){} , 
+          onTap: (){
+            Get.to(() => BookAppointmentView());
+          } , 
           buttonText: "Book an appointment",
         ),
       ),
