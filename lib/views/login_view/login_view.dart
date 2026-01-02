@@ -2,15 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/consts/images.dart';
 import 'package:flutter_application_1/consts/strings.dart';
+import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/res/components/custom_button.dart';
 import 'package:flutter_application_1/res/components/custum_textfield.dart';
 import 'package:flutter_application_1/views/home_view/home.dart';
+import 'package:flutter_application_1/views/home_view/doc_home.dart';
 import 'package:flutter_application_1/views/signup_view/signup_view.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-class LoginView extends StatelessWidget {
+class LoginView extends StatefulWidget {
   const LoginView({super.key});
+
+  @override
+  State<LoginView> createState() => _LoginViewState();
+}
+
+class _LoginViewState extends State<LoginView> {
+  String userType = 'patient'; // Default selection
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +52,49 @@ class LoginView extends StatelessWidget {
                     10.heightBox,
                     CustumTextfield(hint: AppStrings.password),
                     20.heightBox,
+                    // User type selection
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        AppStyles.bold(title: "I am a: "),
+                        Radio<String>(
+                          value: 'patient',
+                          groupValue: userType,
+                          onChanged: (String? value) {
+                            setState(() {
+                              userType = value!;
+                            });
+                          },
+                          activeColor: AppColors.blueColor,
+                        ),
+                        AppStyles.normal(title: "Patient"),
+                        20.widthBox,
+                        Radio<String>(
+                          value: 'doctor',
+                          groupValue: userType,
+                          onChanged: (String? value) {
+                            setState(() {
+                              userType = value!;
+                            });
+                          },
+                          activeColor: AppColors.blueColor,
+                        ),
+                        AppStyles.normal(title: "Doctor"),
+                      ],
+                    ),
+                    10.heightBox,
                     Align(
                       alignment: Alignment.centerRight,
                       child: AppStyles.normal(title: AppStrings.forgetPassword),
                     ),
                     20.heightBox,
                     CustomButton(buttonText: AppStrings.login, onTap: () {
-                      Get.to(()=> const Home());
+                      // Navigate based on user type
+                      if (userType == 'doctor') {
+                        Get.to(() => const DocHome());
+                      } else {
+                        Get.to(() => const Home());
+                      }
                     }),
                     20.heightBox,
                     Row(
