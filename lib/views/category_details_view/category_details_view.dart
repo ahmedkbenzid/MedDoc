@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
-import 'package:flutter_application_1/consts/images.dart';
+import 'package:flutter_application_1/consts/lists.dart';
 
 class CategoryDetailsView extends StatelessWidget {
   const CategoryDetailsView({super.key});
@@ -48,13 +48,13 @@ class CategoryDetailsView extends StatelessWidget {
                                     alignment: Alignment.center,
                                     color: AppColors.blueColor,
                                     child: Image.asset(
-                                      AppAssets.imgSignup,
+                                      docsList[index],
                                       fit: BoxFit.contain,
                                     ),
                                   ),
                                 ),
                                 const SizedBox(height: 5),
-                                AppStyles.normal(title: "Doctor Name", alignment: TextAlign.center),
+                                AppStyles.normal(title: docsNameList[index], alignment: TextAlign.center),
                                 VxRating(
                                   selectionColor: AppColors.yellowColor,
                                   onRatingUpdate: (value){},
