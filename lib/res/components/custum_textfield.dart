@@ -8,7 +8,17 @@ class CustumTextfield extends StatefulWidget {
   final TextEditingController? textController;
   final Color textColor;
   final Color borderColor;
-  const CustumTextfield({super.key, required this.hint, this.textController, this.textColor= Colors.black, this.borderColor=Colors.black});
+  final String? Function(String?)? validator;
+  final bool obscureText;
+  const CustumTextfield({
+    super.key,
+    required this.hint,
+    this.textController,
+    this.textColor = Colors.black,
+    this.borderColor = Colors.black,
+    this.validator,
+    this.obscureText = false,
+  });
 
   @override
   State<CustumTextfield> createState() => _CustumTextfieldState();
@@ -19,28 +29,27 @@ class _CustumTextfieldState extends State<CustumTextfield> {
   Widget build(BuildContext context) {
     return TextFormField(
       cursorColor: AppColors.blueColor,
+      controller: widget.textController,
+      validator: widget.validator,
+      obscureText: widget.obscureText,
       decoration: InputDecoration(
-        isDense: true,
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          isDense: true,
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(
             color: widget.borderColor,
-          )
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
+          )),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
             color: widget.borderColor,
-          )
-        ),
-        border:OutlineInputBorder(
-          borderSide: BorderSide(
-            color: widget.borderColor
-          )
-        ),
-        hintText: widget.hint,
-        hintStyle: TextStyle(
-          color: widget.textColor,
-        )
-      ),
+          )),
+          border: OutlineInputBorder(
+              borderSide: BorderSide(
+            color: widget.borderColor,
+          )),
+          hintText: widget.hint,
+          hintStyle: TextStyle(
+            color: widget.textColor,
+          )),
     );
   }
 }

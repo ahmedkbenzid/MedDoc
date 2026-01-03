@@ -36,6 +36,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   velocity_x: ^4.1.0
   get: ^4.6.5
+  supabase_flutter: ^2.3.4
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:

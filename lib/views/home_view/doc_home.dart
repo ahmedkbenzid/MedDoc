@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/consts/images.dart';
-import 'package:flutter_application_1/views/appointment_view/appointment_view.dart';
+import 'package:flutter_application_1/views/doctor/doctor_appointment/agenda_view.dart';
+import 'package:flutter_application_1/views/doctor/doctor_appointment/appointment_request_view.dart';
+import 'package:flutter_application_1/views/doctor/doctor_profile/profile_view.dart';
+import 'package:flutter_application_1/views/doctor/doctor_communication/message_list_view.dart';
+import 'package:flutter_application_1/views/doctor/patient_records/patient_list_view.dart';
 import 'package:flutter_application_1/views/settings_view/settings_view.dart';
 import 'package:velocity_x/velocity_x.dart';
+import 'package:flutter_application_1/views/doctor/reminders/reminders_view.dart';
+
 
 class DocHome extends StatefulWidget {
   const DocHome({super.key});
@@ -15,9 +21,14 @@ class DocHome extends StatefulWidget {
 
 class _DocHomeState extends State<DocHome> {
   int selectedIndex = 0;
-  List screenList = [
+
+  // Liste des écrans disponibles
+  final List<Widget> screenList = [
     const DoctorHomeView(),
-    const AppointmentView(),
+    AgendaView(),
+    AppointmentRequestView(),
+    const MessageListView(),
+    const RemindersView(),
     const SettingsView(),
   ];
 
@@ -28,12 +39,8 @@ class _DocHomeState extends State<DocHome> {
       bottomNavigationBar: BottomNavigationBar(
         unselectedItemColor: Colors.white.withOpacity(0.5),
         selectedItemColor: AppColors.whiteColor,
-        selectedLabelStyle: TextStyle(
-          color: AppColors.whiteColor,
-        ),
-        selectedIconTheme: IconThemeData(
-          color: AppColors.whiteColor,
-        ),
+        selectedLabelStyle: TextStyle(color: AppColors.whiteColor),
+        selectedIconTheme: IconThemeData(color: AppColors.whiteColor),
         backgroundColor: AppColors.blueColor,
         type: BottomNavigationBarType.fixed,
         currentIndex: selectedIndex,
@@ -43,9 +50,28 @@ class _DocHomeState extends State<DocHome> {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.book), label: "Appointments"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+          
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Dashboard"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_today),
+            label: "Agenda",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.request_page),
+            label: "Requests",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.message),
+            label: "Messages",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications), // icône pour les rappels
+            label: "Reminders",              // nouveau label
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: "Settings",
+          ),
         ],
       ),
     );
@@ -74,7 +100,7 @@ class DoctorHomeView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Welcome Section
+              // Welcome Section avec boutons Profil et Dossiers Patients
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -88,27 +114,55 @@ class DoctorHomeView extends StatelessWidget {
                       child: Image.asset(AppAssets.imgSignup),
                     ),
                     15.widthBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        AppStyles.bold(
-                          title: "Welcome Dr. John",
-                          color: AppColors.whiteColor,
-                          size: AppSizes.size16,
-                        ),
-                        5.heightBox,
-                        AppStyles.normal(
-                          title: "Have a nice day!",
-                          color: AppColors.whiteColor.withOpacity(0.8),
-                          size: AppSizes.size12,
-                        ),
-                      ],
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          AppStyles.bold(
+                            title: "Welcome Dr. John",
+                            color: AppColors.whiteColor,
+                            size: AppSizes.size16,
+                          ),
+                          5.heightBox,
+                          AppStyles.normal(
+                            title: "Have a nice day!",
+                            color: AppColors.whiteColor.withOpacity(0.8),
+                            size: AppSizes.size12,
+                          ),
+                        ],
+                      ),
+                    ),
+                    // Bouton Profil
+                    IconButton(
+                      icon: const Icon(Icons.person, color: Colors.white),
+                      tooltip: "Mon Profil",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const ProfileView(),
+                          ),
+                        );
+                      },
+                    ),
+                    // Bouton Dossiers Patients
+                    IconButton(
+                      icon: const Icon(Icons.folder, color: Colors.white),
+                      tooltip: "Dossiers Patients",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const PatientListView(),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
               ),
               20.heightBox,
-              
+
               // Quick Stats
               Row(
                 children: [
@@ -121,7 +175,11 @@ class DoctorHomeView extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          Icon(Icons.people, size: 40, color: AppColors.blueColor),
+                          Icon(
+                            Icons.people,
+                            size: 40,
+                            color: AppColors.blueColor,
+                          ),
                           10.heightBox,
                           AppStyles.bold(
                             title: "24",
@@ -148,7 +206,11 @@ class DoctorHomeView extends StatelessWidget {
                       ),
                       child: Column(
                         children: [
-                          Icon(Icons.person, size: 40, color: AppColors.blueColor),
+                          Icon(
+                            Icons.person,
+                            size: 40,
+                            color: AppColors.blueColor,
+                          ),
                           10.heightBox,
                           AppStyles.bold(
                             title: "342",
@@ -167,7 +229,7 @@ class DoctorHomeView extends StatelessWidget {
                 ],
               ),
               20.heightBox,
-              
+
               // Upcoming Appointments Section
               AppStyles.bold(
                 title: "Upcoming Appointments",
@@ -175,8 +237,8 @@ class DoctorHomeView extends StatelessWidget {
                 size: AppSizes.size18,
               ),
               10.heightBox,
-              
-              // Appointments List
+
+              // Appointments List (mock data)
               ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -214,7 +276,11 @@ class DoctorHomeView extends StatelessWidget {
                             ],
                           ),
                         ),
-                        Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.blueColor),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 16,
+                          color: AppColors.blueColor,
+                        ),
                       ],
                     ),
                   );

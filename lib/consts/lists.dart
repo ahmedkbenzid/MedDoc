@@ -37,7 +37,7 @@ var docsList = [
 ];
 var docsNameList = [
   "Ons Nasri",
-  "Ahmed Kame Benzid",
+  "Ahmed Kamel Benzid",
   "Ahmed Bouafif",
   "Pierre-Emerick Aubameyang",
   "John Doe",
