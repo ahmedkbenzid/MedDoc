@@ -25,15 +25,31 @@ var docsList = [
   AppAssets.imgDoc1,
   AppAssets.imgDoc2,
   AppAssets.imgDoc3,
+  AppAssets.imgDoc4,
+  AppAssets.imgDoc5,
+  AppAssets.imgDoc6,
+  AppAssets.imgDoc7,
+  AppAssets.imgDoc8,
+  AppAssets.imgDoc9,
+  AppAssets.imgDoc10,
+
 
 ];
 var docsNameList = [
   "Ons Nasri",
   "Ahmed Kame Benzid",
   "Ahmed Bouafif",
+  "Pierre-Emerick Aubameyang",
+  "John Doe",
+  "Erika Simon",
+  "Sophia Martinez",
+  "Adam Wilson",
+  "Michael Carter",
+  "Emily Johnson",
 
 ];
 
+var category =["Cardiologist","Dentist","Eye Specialist","Therapist","Surgeon","Pediatrician"];
 var settingsList = [
   AppStrings.changepwd,
   AppStrings.termConditions,
