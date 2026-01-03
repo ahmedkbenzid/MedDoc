@@ -29,11 +29,12 @@ var docsList = [
 ];
 var docsNameList = [
   "Ons Nasri",
-  "Ahmed Kame Benzid",
+  "Ahmed Kamel Benzid",
   "Ahmed Bouafif",
 
 ];
 
+var category =["Cardiologist","Dentist","Eye Specialist","Therapist","Surgeon","Pediatrician"];
 var settingsList = [
   AppStrings.changepwd,
   AppStrings.termConditions,

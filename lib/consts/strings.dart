@@ -29,5 +29,5 @@ kidney = "Kidney",
 dontHaveAccount = "Don't have an account?",
 settings= "Settings",
 doctor = "Doctor Login",
-category= "Category";
+category = "Category";
 }
