@@ -3,7 +3,7 @@ import 'package:flutter_application_1/consts/consts.dart';
 
 import '../../consts/colors.dart';
 
-class CustumTextfield extends StatefulWidget {
+class CustumTextfield extends StatelessWidget {
   final String hint;
   final TextEditingController? textController;
   final Color textColor;
@@ -21,34 +21,29 @@ class CustumTextfield extends StatefulWidget {
   });
 
   @override
-  State<CustumTextfield> createState() => _CustumTextfieldState();
-}
-
-class _CustumTextfieldState extends State<CustumTextfield> {
-  @override
   Widget build(BuildContext context) {
     return TextFormField(
       cursorColor: AppColors.blueColor,
-      controller: widget.textController,
-      validator: widget.validator,
-      obscureText: widget.obscureText,
+      controller: textController,
+      validator: validator,
+      obscureText: obscureText,
       decoration: InputDecoration(
           isDense: true,
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(
-            color: widget.borderColor,
+            color: borderColor,
           )),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
-            color: widget.borderColor,
+            color: borderColor,
           )),
           border: OutlineInputBorder(
               borderSide: BorderSide(
-            color: widget.borderColor,
+            color: borderColor,
           )),
-          hintText: widget.hint,
+          hintText: hint,
           hintStyle: TextStyle(
-            color: widget.textColor,
+            color: textColor,
           )),
     );
   }

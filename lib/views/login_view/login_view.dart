@@ -91,6 +91,7 @@ class _LoginViewState extends State<LoginView> {
                       hint: AppStrings.password,
                       textController: _passwordController,
                       validator: _authController.validatePassword,
+                      obscureText: true,
                     ),
                     20.heightBox,
                     10.heightBox,

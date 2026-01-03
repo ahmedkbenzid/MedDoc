@@ -85,7 +85,8 @@ class _SignupViewState extends State<SignupView> {
                     CustumTextfield(
                       hint: AppStrings.password,
                       textController: _passwordController,
-                      validator: _authController.validatePassword
+                      validator: _authController.validatePassword,
+                      obscureText: true,
                     ),
                     20.heightBox,
                     // User type selection
