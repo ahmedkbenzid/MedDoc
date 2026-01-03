@@ -9,4 +9,6 @@ class AppColors {
   whiteColor=Colors.white,
   bgDarkColor = const Color(0xffECECEC);
 
+  static Color? get textfieldColor => null;
+
 }

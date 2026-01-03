@@ -92,53 +92,56 @@ class HomeView extends StatelessWidget {
                 10.heightBox,
                 SizedBox(
                   height: 150,
-                  child: ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 3,
-                    itemBuilder: (BuildContext context, int index){
-                      return GestureDetector(
-                        onTap: (){
-                          Get.to(()=>const DoctorProfileView());
-                        },
-                        child: Container(
-                          
-                          clipBehavior: Clip.hardEdge,
-                          decoration: BoxDecoration(
-                            color: AppColors.bgDarkColor,
-                            borderRadius: BorderRadius.circular(12),
-                          
-                          ),
-                          margin: EdgeInsets.only(right: 8),
-                          height: 100,
-                          width: 150,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  width: double.infinity,
-                                  alignment: Alignment.center,
-                                  color: AppColors.blueColor,
-                                  child: Image.asset(
-                                    docsList[index],
-                                    fit: BoxFit.contain,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 5),
-                              AppStyles.normal(title: docsNameList[index], alignment: TextAlign.center),
-                              AppStyles.normal(
-                                alignment: TextAlign.center,
-                                title: "Category",
-                                color: Colors.black54,
-                              ),
-                            ],
-                          ),   
-                        ),
-                      );
-                    },
+                child: SingleChildScrollView(
+  physics: const BouncingScrollPhysics(),
+  child: Wrap(
+    spacing: 8,        // espace horizontal
+    runSpacing: 8,    // espace vertical (retour à la ligne)
+    children: List.generate(3, (index) {
+      return GestureDetector(
+        onTap: () {
+          Get.to(() => const DoctorProfileView());
+        },
+        child: Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            color: AppColors.bgDarkColor,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          height: 150,
+          width: 150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Container(
+                  width: double.infinity,
+                  alignment: Alignment.center,
+                  color: AppColors.blueColor,
+                  child: Image.asset(
+                    docsList[index],
+                    fit: BoxFit.contain,
                   ),
+                ),
+              ),
+              const SizedBox(height: 5),
+              AppStyles.normal(
+                title: docsNameList[index],
+                alignment: TextAlign.center,
+              ),
+              AppStyles.normal(
+                alignment: TextAlign.center,
+                title: category[index],
+                color: Colors.black54,
+              ),
+            ],
+          ),
+        ),
+      );
+    }),
+  ),
+),
+
                 ),
                 5.heightBox,
                 GestureDetector(
