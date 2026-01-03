@@ -55,77 +55,138 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        margin: EdgeInsets.only(top: 40),
-        padding: const EdgeInsets.all(8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    AppAssets.imgLogin,
-                    width: 200,
-                  ),
-                  10.heightBox,
-                  AppStyles.bold(title: AppStrings.welcomeBack, size: AppSizes.size18),
-                  AppStyles.bold(title: AppStrings.weAreExcited),
-                ],
-            ),
-            30.heightBox,
-            Expanded(
-              child: Form(
-                key: _formKey,
-                child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    CustumTextfield(
-                      hint: AppStrings.email,
-                      textController: _emailController,
-                      validator: _authController.validateEmail,
-                    ),
-                    10.heightBox,
-                    CustumTextfield(
-                      hint: AppStrings.password,
-                      textController: _passwordController,
-                      validator: _authController.validatePassword,
-                    ),
-                    20.heightBox,
-                    10.heightBox,
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: AppStyles.normal(title: AppStrings.forgetPassword),
-                    ),
-                    20.heightBox,
-                    Obx(() => _authController.isLoading.value
-                        ? const CircularProgressIndicator()
-                        : CustomButton(
-                            buttonText: AppStrings.login,
-                            onTap: _handleLogin,
-                          )),
-                    20.heightBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        AppStyles.normal(title: AppStrings.dontHaveAccount),
-                        8.widthBox,
-                        GestureDetector(
-                          onTap: () {
-                            Get.to(() => const SignupView());
-                          },
-                          child: AppStyles.bold(title: AppStrings.signup),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+  resizeToAvoidBottomInset: true,
+  body: SafeArea(
+    child: Column(
+      children: [
+
+        // 🔹 Header
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppStyles.bold(
+                title: "MedDoc",
+                color: AppColors.blueColor,
+                size: AppSizes.size34,
               ),
-              ),
-            ),
-          ],
+              const Icon(Icons.menu),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+
+        const SizedBox(height: 20),
+
+        // 🔹 Main content
+        Expanded(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+
+                // Logo + welcome
+                Image.asset(
+                  AppAssets.imgLogin,
+                  width: 200,
+                ),
+                10.heightBox,
+                AppStyles.bold(
+                  title: AppStrings.welcomeBack,
+                  size: AppSizes.size18,
+                ),
+                AppStyles.bold(title: AppStrings.weAreExcited),
+
+                30.heightBox,
+
+                // 🔹 Form
+                Form(
+                  child: Column(
+                    children: [
+                      CustumTextfield(hint: AppStrings.email),
+                      10.heightBox,
+                      CustumTextfield(hint: AppStrings.password),
+                      20.heightBox,
+
+                      // User type
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AppStyles.bold(title: "I am a: "),
+                          Radio<String>(
+                            value: 'patient',
+                            groupValue: userType,
+                            onChanged: (value) {
+                              setState(() => userType = value!);
+                            },
+                            activeColor: AppColors.blueColor,
+                          ),
+                          AppStyles.normal(title: "Patient"),
+                          20.widthBox,
+                          Radio<String>(
+                            value: 'doctor',
+                            groupValue: userType,
+                            onChanged: (value) {
+                              setState(() => userType = value!);
+                            },
+                            activeColor: AppColors.blueColor,
+                          ),
+                          AppStyles.normal(title: "Doctor"),
+                        ],
+                      ),
+
+                      10.heightBox,
+
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: AppStyles.normal(
+                          title: AppStrings.forgetPassword,
+                        ),
+                      ),
+
+                      20.heightBox,
+
+                      CustomButton(
+                        buttonText: AppStrings.login,
+                        onTap: () {
+                          if (userType == 'doctor') {
+                            Get.to(() => const DocHome());
+                          } else {
+                            Get.to(() => const Home());
+                          }
+                        },
+                      ),
+
+                      20.heightBox,
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          AppStyles.normal(
+                            title: AppStrings.dontHaveAccount,
+                          ),
+                          8.widthBox,
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => SignupView());
+                            },
+                            child: AppStyles.bold(
+                              title: AppStrings.signup,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  ),
+);
+
+}
 }
