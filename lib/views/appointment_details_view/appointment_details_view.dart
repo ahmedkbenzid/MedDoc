@@ -171,6 +171,12 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
 
   @override
   Widget build(BuildContext context) {
+    final AppointmentController appointmentController = Get.isRegistered<AppointmentController>()
+        ? Get.find<AppointmentController>()
+        : Get.put(AppointmentController());
+    
+    final bool hasExistingAppointment = appointmentController.hasAppointmentWithDoctor(widget.docName);
+    
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
@@ -432,7 +438,9 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
+      bottomNavigationBar: hasExistingAppointment 
+        ? null 
+        : Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.whiteColor,
@@ -479,17 +487,15 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
                       return;
                     }
                     
-                    // Obtenir ou créer le contrôleur
-                    final AppointmentController controller = Get.isRegistered<AppointmentController>()
-                        ? Get.find<AppointmentController>()
-                        : Get.put(AppointmentController());
-                    controller.addAppointment(
+                    appointmentController.addAppointment(
                       docName: widget.docName,
                       docSpeciality: widget.docSpeciality,
+                      docImage: widget.docImage,
                       date: widget.selectedDate,
                       reason: _reasonController.text,
                       paymentMethod: _selectedPaymentMethod,
                       totalAmount: _total,
+                      doctorId: widget.docName,
                     );
                     
                     Get.snackbar(
