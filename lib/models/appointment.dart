@@ -1,22 +1,29 @@
-import 'doctor.dart';
-import 'patient.dart';
-
-enum AppointmentStatus { pending, accepted, refused, completed } // attention: 'refused' et non 'rejected'
+// lib/models/appointment.dart
 
 class Appointment {
   final String id;
-  final Doctor doctor;
-  final Patient patient;
-  final DateTime dateTime;
+  final String patientName;
+  final DateTime time;
   final String message;
-  AppointmentStatus status;
+  final String status;
 
   Appointment({
     required this.id,
-    required this.doctor,
-    required this.patient,
-    required this.dateTime,
-    this.message = '',
-    this.status = AppointmentStatus.pending,
+    required this.patientName,
+    required this.time,
+    required this.message,
+    required this.status,
   });
+
+  factory Appointment.fromMap(Map<String, dynamic> map) {
+    return Appointment(
+      id: map['id']?.toString() ?? '',
+      patientName: map['patient_name'] ?? 'Patient',
+      time: map['time'] != null
+          ? DateTime.parse(map['time'])
+          : DateTime.now(),
+      message: map['message'] ?? '',
+      status: map['status'] ?? 'pending',
+    );
+  }
 }
