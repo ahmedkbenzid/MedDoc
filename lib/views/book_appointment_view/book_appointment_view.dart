@@ -2,6 +2,7 @@ import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/res/components/custom_button.dart';
 import 'package:flutter_application_1/views/appointment_details_view/appointment_details_view.dart';
 import 'package:get/get.dart';
+import 'dart:math';
 
 class BookAppointmentView extends StatefulWidget {
   final String docName;
@@ -24,6 +25,7 @@ class BookAppointmentView extends StatefulWidget {
 class _BookAppointmentViewState extends State<BookAppointmentView> {
   int selectedDay = 23;
   String selectedTime = '02:00 PM';
+  late final String _distance;
   
   final List<Map<String, dynamic>> days = [
     {'day': 'Mon', 'date': 21, 'fullDay': 'Monday'},
@@ -53,6 +55,19 @@ class _BookAppointmentViewState extends State<BookAppointmentView> {
     '07:00 PM',
     '08:00 PM',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Générer une distance aléatoire basée sur le nom du docteur
+    final random = Random(widget.docName.hashCode);
+    final distanceInMeters = 100 + random.nextInt(4900);
+    if (distanceInMeters >= 1000) {
+      _distance = '${(distanceInMeters / 1000).toStringAsFixed(1)} km away';
+    } else {
+      _distance = '$distanceInMeters m away';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +139,7 @@ class _BookAppointmentViewState extends State<BookAppointmentView> {
                             ),
                             4.widthBox,
                             AppStyles.normal(
-                              title: "800m away",
+                              title: _distance,
                               color: AppColors.textColor.withOpacity(0.6),
                               size: AppSizes.size12,
                             ),

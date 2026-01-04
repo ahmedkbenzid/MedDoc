@@ -24,6 +24,7 @@ class AppointmentController extends GetxController {
     required String reason,
     required String paymentMethod,
     required double totalAmount,
+    String? doctorId, // Ajouter un ID unique pour le médecin
   }) {
     final newAppointment = {
       'docName': docName,
@@ -34,9 +35,18 @@ class AppointmentController extends GetxController {
       'reason': reason,
       'paymentMethod': paymentMethod,
       'totalAmount': totalAmount,
+      'doctorId': doctorId ?? docName, // Utiliser le nom comme ID si non fourni
     };
 
     appointments.insert(0, newAppointment); // Ajouter au début de la liste
+  }
+
+  // Vérifier si un rendez-vous existe déjà avec ce médecin
+  bool hasAppointmentWithDoctor(String doctorId) {
+    return appointments.any((appointment) => 
+      appointment['doctorId'] == doctorId && 
+      appointment['status'] != 'Cancelled'
+    );
   }
 
   // Annuler un rendez-vous
