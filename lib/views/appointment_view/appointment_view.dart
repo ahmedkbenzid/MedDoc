@@ -97,6 +97,7 @@ class AppointmentView extends StatelessWidget {
                       Get.to(() => AppointmentDetailsView(
                         docName: appointment['docName']!,
                         docSpeciality: appointment['docSpeciality']!,
+                        docImage: appointment['docImage'] ?? '',
                         selectedDate: appointment['date']!,
                         selectedDay: 23,
                         selectedTime: '02:00 PM',
@@ -105,11 +106,12 @@ class AppointmentView extends StatelessWidget {
                     leading: CircleAvatar(
                       radius: 30,
                       backgroundColor: AppColors.blueColor.withOpacity(0.1),
-                      child: Icon(
-                        Icons.person,
-                        size: 30,
-                        color: AppColors.blueColor,
-                      ),
+                      backgroundImage: (appointment['docImage'] != null && appointment['docImage'].toString().isNotEmpty)
+                          ? AssetImage(appointment['docImage']) as ImageProvider
+                          : null,
+                      child: (appointment['docImage'] == null || appointment['docImage'].toString().isEmpty)
+                          ? Icon(Icons.person, size: 30, color: AppColors.blueColor)
+                          : null,
                     ),
                     title: AppStyles.bold(
                       title: appointment['docName']!,

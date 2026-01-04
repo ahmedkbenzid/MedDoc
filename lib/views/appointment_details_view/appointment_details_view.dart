@@ -10,6 +10,7 @@ import 'dart:math';
 class AppointmentDetailsView extends StatefulWidget {
   final String docName;
   final String docSpeciality;
+  final String docImage;
   final String selectedDate;
   final int selectedDay;
   final String selectedTime;
@@ -18,6 +19,7 @@ class AppointmentDetailsView extends StatefulWidget {
     super.key,
     required this.docName,
     required this.docSpeciality,
+    this.docImage = '',
     required this.selectedDate,
     required this.selectedDay,
     required this.selectedTime,
@@ -199,7 +201,12 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
                   CircleAvatar(
                     radius: 40,
                     backgroundColor: AppColors.blueColor.withOpacity(0.1),
-                    child: Icon(Icons.person, size: 40, color: AppColors.blueColor),
+                    backgroundImage: widget.docImage.isNotEmpty 
+                        ? AssetImage(widget.docImage) as ImageProvider
+                        : null,
+                    child: widget.docImage.isEmpty
+                        ? Icon(Icons.person, size: 40, color: AppColors.blueColor)
+                        : null,
                   ),
                   16.widthBox,
                   Expanded(

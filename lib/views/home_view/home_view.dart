@@ -172,6 +172,7 @@ class _HomeViewState extends State<HomeView> {
                                     'docName': docsNameList[index],
                                     'docCategory':  index < category.length ? category[index] : 'General',
                                     'docRating': (Random().nextDouble() * 2 + 3).toStringAsFixed(1),
+                                    'docImage': index < docsList.length ? docsList[index] : docsList[0],
                                   }));
                                 },
                                 child: Container(

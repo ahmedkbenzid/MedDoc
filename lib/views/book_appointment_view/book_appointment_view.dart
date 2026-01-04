@@ -17,7 +17,7 @@ class BookAppointmentView extends StatefulWidget {
     required this.docName,
     required this.docSpeciality,
     this.docImage = '',
-    this.docRating = '4.7',
+    required this.docRating,
   });
 
   @override
@@ -84,7 +84,12 @@ class _BookAppointmentViewState extends State<BookAppointmentView> {
                   CircleAvatar(
                     radius: 40,
                     backgroundColor: AppColors.blueColor.withOpacity(0.1),
-                    child: Icon(Icons.person, size: 40, color: AppColors.blueColor),
+                    backgroundImage: widget.docImage.isNotEmpty 
+                        ? AssetImage(widget.docImage) as ImageProvider
+                        : null,
+                    child: widget.docImage.isEmpty
+                        ? Icon(Icons.person, size: 40, color: AppColors.blueColor)
+                        : null,
                   ),
                   16.widthBox,
                   Expanded(
@@ -278,6 +283,7 @@ class _BookAppointmentViewState extends State<BookAppointmentView> {
                   Get.to(() => AppointmentDetailsView(
                     docName: widget.docName,
                     docSpeciality: widget.docSpeciality,
+                    docImage: widget.docImage,
                     selectedDate: 'Wednesday, Jun 23, 2021 | $selectedTime',
                     selectedDay: selectedDay,
                     selectedTime: selectedTime,
