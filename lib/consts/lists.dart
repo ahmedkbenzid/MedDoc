@@ -1,6 +1,4 @@
 import 'package:flutter_application_1/consts/consts.dart';
-import 'package:flutter_application_1/consts/images.dart';
-import 'package:flutter_application_1/consts/strings.dart';
 
 var iconsList = [
   AppAssets.icBody,

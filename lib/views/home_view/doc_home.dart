@@ -1,8 +1,6 @@
 import 'dart:math';
 
 import 'package:flutter_application_1/consts/consts.dart';
-import 'package:flutter_application_1/consts/fonts.dart';
-import 'package:flutter_application_1/consts/images.dart';
 import 'package:flutter_application_1/views/doctor/doctor_appointment/agenda_view.dart';
 import 'package:flutter_application_1/views/doctor/doctor_appointment/appointment_request_view.dart';
 import 'package:flutter_application_1/views/doctor/doctor_profile/profile_view.dart';
@@ -12,7 +10,6 @@ import 'package:flutter_application_1/views/doctor_profile_view/doctor_profile_v
 import 'package:flutter_application_1/views/settings_view/settings_view.dart';
 import 'package:flutter_application_1/services/auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter_application_1/views/doctor/reminders/reminders_view.dart';
 
 class DocHome extends StatefulWidget {

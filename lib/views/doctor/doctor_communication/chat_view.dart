@@ -1,23 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/colors.dart';
+import 'package:flutter_application_1/models/message.dart';
 import 'package:flutter_application_1/services/chat_service.dart';
 
 class ChatView extends StatefulWidget {
+  final String patientId;
   final String patientName;
 
-  const ChatView({super.key, required this.patientName});
+  const ChatView({
+    super.key,
+    required this.patientId,
+    required this.patientName,
+  });
 
   @override
   State<ChatView> createState() => _ChatViewState();
 }
 
 class _ChatViewState extends State<ChatView> {
+  final ChatService _chatService = ChatService();
   final TextEditingController _controller = TextEditingController();
+  late Future<List<Message>> _messagesFuture;
+
+  // UUID du docteur
+  final String doctorId = '11111111-1111-1111-1111-111111111111';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMessages();
+  }
+
+  void _loadMessages() {
+    _messagesFuture = _chatService.getMessages(widget.patientId);
+  }
+
+  void _sendMessage() async {
+    final text = _controller.text.trim();
+    if (text.isEmpty) return;
+
+    await _chatService.sendMessage(
+      patientId: widget.patientId,
+      patientName: widget.patientName,
+      content: text,
+    );
+
+    _controller.clear();
+    setState(() {
+      _loadMessages();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final messages = ChatService.getMessages(widget.patientName);
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.patientName),
@@ -25,48 +60,41 @@ class _ChatViewState extends State<ChatView> {
       ),
       body: Column(
         children: [
-          // Messages
           Expanded(
-            child: messages.isEmpty
-                ? const Center(
-                    child: Text(
-                      "Aucun message",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  )
-                : ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final msg = messages[index];
-                      return Align(
-                        alignment: msg.isDoctor
-                            ? Alignment.centerRight
-                            : Alignment.centerLeft,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(
-                              vertical: 6, horizontal: 10),
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: msg.isDoctor
-                                ? AppColors.blueColor
-                                : Colors.grey.shade300,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            msg.text,
-                            style: TextStyle(
-                              color: msg.isDoctor
-                                  ? Colors.white
-                                  : Colors.black,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-          ),
+            child: FutureBuilder<List<Message>>(
+              future: _messagesFuture,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) return const Center(child: CircularProgressIndicator());
 
-          // Input
+                final messages = snapshot.data!;
+                if (messages.isEmpty) return const Center(child: Text("Aucun message"));
+
+                return ListView.builder(
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final msg = messages[index];
+                    final isDoctor = msg.doctorId == doctorId;
+
+                    return Align(
+                      alignment: isDoctor ? Alignment.centerRight : Alignment.centerLeft,
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: isDoctor ? AppColors.blueColor : Colors.grey.shade200,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Text(
+                          msg.content,
+                          style: TextStyle(color: isDoctor ? Colors.white : Colors.black),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
           Container(
             padding: const EdgeInsets.all(8),
             child: Row(
@@ -83,21 +111,8 @@ class _ChatViewState extends State<ChatView> {
                 IconButton(
                   icon: const Icon(Icons.send),
                   color: AppColors.blueColor,
-                  onPressed: () {
-                    if (_controller.text.trim().isEmpty) return;
-
-                    ChatService.sendMessage(
-                      widget.patientName,
-                      ChatMessage(
-                        text: _controller.text.trim(),
-                        isDoctor: true,
-                      ),
-                    );
-
-                    _controller.clear();
-                    setState(() {});
-                  },
-                )
+                  onPressed: _sendMessage,
+                ),
               ],
             ),
           ),

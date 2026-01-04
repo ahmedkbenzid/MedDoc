@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/controllers/appointment_controller.dart';
