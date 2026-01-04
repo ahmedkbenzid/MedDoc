@@ -476,7 +476,7 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
                     }
                     
                     // Ajouter le rendez-vous au contrôleur
-                    final AppointmentController controller = Get.find<AppointmentController>();
+                    final AppointmentController controller = Get.put(AppointmentController());
                     controller.addAppointment(
                       docName: widget.docName,
                       docSpeciality: widget.docSpeciality,
