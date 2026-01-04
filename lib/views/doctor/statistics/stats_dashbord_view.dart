@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/consts/consts.dart';
-import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:fl_chart/fl_chart.dart'; // package pour les graphiques
 
 class StatsDashboardView extends StatelessWidget {

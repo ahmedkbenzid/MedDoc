@@ -1,10 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/res/components/custom_button.dart';
 import 'package:flutter_application_1/res/components/custum_textfield.dart';
 import 'package:flutter_application_1/services/auth_service.dart';
 import 'package:get/get.dart';
-import 'package:velocity_x/velocity_x.dart';
 
 class ChangePasswordView extends StatefulWidget {
   const ChangePasswordView({super.key});

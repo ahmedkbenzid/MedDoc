@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/consts/supabase_config.dart';
 import 'package:flutter_application_1/views/login_view/login_view.dart';

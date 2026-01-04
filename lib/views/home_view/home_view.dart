@@ -1,12 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/consts/consts.dart';
-import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/consts/lists.dart';
-import 'package:flutter_application_1/consts/strings.dart';
 import 'package:flutter_application_1/res/components/custum_textfield.dart';
 import 'package:flutter_application_1/views/doctor_profile_view/doctor_profile_view.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/route_manager.dart';
 
 class HomeView extends StatelessWidget {

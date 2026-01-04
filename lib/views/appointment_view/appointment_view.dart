@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/consts/consts.dart';
-import 'package:flutter_application_1/consts/fonts.dart';
-import 'package:flutter_application_1/consts/images.dart';
 import 'package:flutter_application_1/views/appointment_details_view/appointment_details_view.dart';
 import 'package:get/get.dart';
 
