@@ -26,13 +26,21 @@ class _BookAppointmentViewState extends State<BookAppointmentView> {
   String selectedTime = '02:00 PM';
   
   final List<Map<String, dynamic>> days = [
-    {'day': 'Mon', 'date': 21},
-    {'day': 'Tue', 'date': 22},
-    {'day': 'Wed', 'date': 23},
-    {'day': 'Thu', 'date': 24},
-    {'day': 'Fri', 'date': 25},
-    {'day': 'Sat', 'date': 26},
+    {'day': 'Mon', 'date': 21, 'fullDay': 'Monday'},
+    {'day': 'Tue', 'date': 22, 'fullDay': 'Tuesday'},
+    {'day': 'Wed', 'date': 23, 'fullDay': 'Wednesday'},
+    {'day': 'Thu', 'date': 24, 'fullDay': 'Thursday'},
+    {'day': 'Fri', 'date': 25, 'fullDay': 'Friday'},
+    {'day': 'Sat', 'date': 26, 'fullDay': 'Saturday'},
   ];
+  
+  String getSelectedDayName() {
+    final selectedDayData = days.firstWhere(
+      (day) => day['date'] == selectedDay,
+      orElse: () => {'day': 'Wed', 'date': 23, 'fullDay': 'Wednesday'},
+    );
+    return selectedDayData['fullDay'] as String;
+  }
 
   final List<String> timeSlots = [
     '09:00 AM',
@@ -133,7 +141,7 @@ class _BookAppointmentViewState extends State<BookAppointmentView> {
               AppStyles.bold(title: "About", size: AppSizes.size16),
               8.heightBox,
               AppStyles.normal(
-                title: "An experienced Doctor scine several years, with many satisfied patients and honors from collegues",
+                title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam... ",
                 color: AppColors.textColor.withOpacity(0.6),
                 size: AppSizes.size14,
               ),
@@ -281,7 +289,7 @@ class _BookAppointmentViewState extends State<BookAppointmentView> {
                     docName: widget.docName,
                     docSpeciality: widget.docSpeciality,
                     docImage: widget.docImage,
-                    selectedDate: 'Wednesday, Jun 23, 2021 | $selectedTime',
+                    selectedDate: '${getSelectedDayName()}, Jun $selectedDay, 2021 | $selectedTime',
                     selectedDay: selectedDay,
                     selectedTime: selectedTime,
                   ));
