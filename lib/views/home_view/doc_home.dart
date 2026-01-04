@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/consts/colors.dart';
+import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/consts/images.dart';
 import 'package:flutter_application_1/views/doctor/doctor_appointment/agenda_view.dart';
@@ -8,11 +7,13 @@ import 'package:flutter_application_1/views/doctor/doctor_profile/profile_view.d
 import 'package:flutter_application_1/views/doctor/doctor_communication/message_list_view.dart';
 import 'package:flutter_application_1/views/doctor/patient_records/patient_list_view.dart';
 import 'package:flutter_application_1/views/settings_view/settings_view.dart';
+import 'package:flutter_application_1/services/auth_service.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:velocity_x/velocity_x.dart';
 import 'package:flutter_application_1/views/doctor/reminders/reminders_view.dart';
 
 class DocHome extends StatefulWidget {
-  const DocHome({super.key});
+  const DocHome({super. key});
 
   @override
   State<DocHome> createState() => _DocHomeState();
@@ -34,9 +35,9 @@ class _DocHomeState extends State<DocHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screenList.elementAt(selectedIndex),
+      body: screenList. elementAt(selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        unselectedItemColor: Colors.white.withOpacity(0.5),
+        unselectedItemColor: Colors.white. withOpacity(0.5),
         selectedItemColor: AppColors.whiteColor,
         selectedLabelStyle: TextStyle(color: AppColors.whiteColor),
         selectedIconTheme: IconThemeData(color: AppColors.whiteColor),
@@ -48,13 +49,13 @@ class _DocHomeState extends State<DocHome> {
             selectedIndex = value;
           });
         },
-        items: const [
+        items:  const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Dashboard"),
           BottomNavigationBarItem(icon: Icon(Icons.calendar_today), label: "Agenda"),
           BottomNavigationBarItem(icon: Icon(Icons.request_page), label: "Requests"),
           BottomNavigationBarItem(icon: Icon(Icons.message), label: "Messages"),
-          BottomNavigationBarItem(icon: Icon(Icons.notifications), label: "Reminders"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+          BottomNavigationBarItem(icon: Icon(Icons. notifications), label: "Reminders"),
+          BottomNavigationBarItem(icon: Icon(Icons. settings), label: "Settings"),
         ],
       ),
     );
@@ -62,8 +63,32 @@ class _DocHomeState extends State<DocHome> {
 }
 
 // Doctor Home View
-class DoctorHomeView extends StatelessWidget {
+class DoctorHomeView extends StatefulWidget {
   const DoctorHomeView({super.key});
+
+  @override
+  State<DoctorHomeView> createState() => _DoctorHomeViewState();
+}
+
+class _DoctorHomeViewState extends State<DoctorHomeView> {
+  final AuthService _authService = AuthService();
+  String doctorName = "Dr. ";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDoctorName();
+  }
+
+  void _loadDoctorName() {
+    User? currentUser = _authService.getCurrentUser();
+    if (currentUser != null) {
+      setState(() {
+        String fullName = currentUser.userMetadata?['full_name'] ??  "";
+        doctorName = "Welcome Dr. $fullName";
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,21 +98,21 @@ class DoctorHomeView extends StatelessWidget {
         title: AppStyles.bold(
           title: "Doctor Dashboard",
           color: AppColors.whiteColor,
-          size: AppSizes.size18,
+          size: AppSizes. size18,
         ),
-        backgroundColor: AppColors.blueColor,
+        backgroundColor:  AppColors.blueColor,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment. start,
           children: [
             // Welcome Section
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: AppColors.blueColor,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius. circular(12),
               ),
               child: Row(
                 children: [
@@ -97,11 +122,11 @@ class DoctorHomeView extends StatelessWidget {
                   ),
                   15.widthBox,
                   Expanded(
-                    child: Column(
+                    child:  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AppStyles.bold(
-                          title: "Welcome Dr. John",
+                          title: doctorName,
                           color: AppColors.whiteColor,
                           size: AppSizes.size16,
                         ),
