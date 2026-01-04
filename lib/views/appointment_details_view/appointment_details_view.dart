@@ -32,6 +32,7 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
   late final double _consultationFee;
   late final double _adminFee;
   late final double _discount;
+  late final String _distance;
 
   final List<Map<String, dynamic>> _paymentMethods = [
     {'name': 'VISA', 'icon': Icons.credit_card, 'color': Colors.blue},
@@ -61,6 +62,14 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
       _discount = ((_consultationFee * discountPercent / 100) / 5).round() * 5.0;
     } else {
       _discount = 0.0;
+    }
+    
+    // Générer une distance aléatoire entre 100m et 5km
+    final distanceInMeters = 100 + random.nextInt(4900);
+    if (distanceInMeters >= 1000) {
+      _distance = '${(distanceInMeters / 1000).toStringAsFixed(1)} km away';
+    } else {
+      _distance = '$distanceInMeters m away';
     }
   }
 
@@ -236,7 +245,7 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
                             ),
                             4.widthBox,
                             AppStyles.normal(
-                              title: "800m away",
+                              title: _distance,
                               color: AppColors.textColor.withOpacity(0.6),
                               size: AppSizes.size12,
                             ),
