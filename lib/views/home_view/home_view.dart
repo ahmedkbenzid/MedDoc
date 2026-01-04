@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/consts/consts.dart';
@@ -6,6 +7,7 @@ import 'package:flutter_application_1/consts/lists.dart';
 import 'package:flutter_application_1/consts/strings.dart';
 import 'package:flutter_application_1/res/components/custum_textfield.dart';
 import 'package:flutter_application_1/views/doctor_profile_view/doctor_profile_view.dart';
+import 'package:flutter_application_1/views/test_results/test_results_view.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/route_manager.dart';
 
@@ -14,6 +16,12 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, String>> testTypes = [
+      {'name': 'Lab Tests', 'icon': iconsList[0]},
+      {'name': 'X-Ray', 'icon':  iconsList[3]},
+      {'name': 'Blood Test', 'icon': iconsList[4]},
+      {'name': 'MRI Scan', 'icon': iconsList[5]},
+    ];
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -50,7 +58,6 @@ class HomeView extends StatelessWidget {
               children: [
                 SizedBox(
                   height: 80,
-                  width: 250,
                   child: ListView.builder(
                     physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
@@ -95,15 +102,15 @@ class HomeView extends StatelessWidget {
                 child: SingleChildScrollView(
   physics: const BouncingScrollPhysics(),
   child: Wrap(
-    spacing: 8,        // espace horizontal
-    runSpacing: 8,    // espace vertical (retour à la ligne)
+    spacing: 8,
+    runSpacing: 8,
     children: List.generate(3, (index) {
       return GestureDetector(
         onTap: () {
           Get.to(() => DoctorProfileView(doc: {
             'docName': docsNameList[index],
             'docCategory': category[index],
-            'docRating': '4.7', // You can replace this with actual rating if available
+            'docRating': (Random().nextDouble() * 2 + 3).toStringAsFixed(1),
           }));
         },
         child: Container(
@@ -157,24 +164,38 @@ class HomeView extends StatelessWidget {
                 ),
                 20.heightBox,
                 Row(
-                  children: List.generate(4, (index) => Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: AppColors.blueColor,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    height: 100,
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          AppAssets.icBody,
-                          width: 25,
-                          color: AppColors.whiteColor,
-
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(4, (index) => Expanded(
+                    child:  GestureDetector(
+                      onTap: () {
+                        // Navigate to test results view
+                        Get.to(() => TestResultsView(testType: testTypes[index]['name'] as String));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: AppColors.blueColor,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        5.heightBox,
-                        AppStyles.normal(title: "Lab Tests", color: AppColors.whiteColor),
-                      ],
+                        height: 100,
+                        child: Column(
+                          mainAxisAlignment:  MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              testTypes[index]['icon'] as String,
+                              width:  30,
+                              color: AppColors.whiteColor,
+                            ),
+                            8.heightBox,
+                            AppStyles.normal(
+                              title: testTypes[index]['name'] as String, 
+                              color: AppColors.whiteColor,
+                              size: AppSizes.size12,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   )),
                 )
