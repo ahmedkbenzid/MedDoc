@@ -141,7 +141,7 @@ class _BookAppointmentViewState extends State<BookAppointmentView> {
               AppStyles.bold(title: "About", size: AppSizes.size16),
               8.heightBox,
               AppStyles.normal(
-                title: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam... ",
+                title: "Dr. ${widget.docName} is a highly skilled ${widget.docSpeciality} with over 10 years of experience in providing exceptional medical care to patients. Known for compassionate approach and dedication to patient well-being.",
                 color: AppColors.textColor.withOpacity(0.6),
                 size: AppSizes.size14,
               ),
