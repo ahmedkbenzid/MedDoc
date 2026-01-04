@@ -476,7 +476,6 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
                     final AppointmentController controller = Get.isRegistered<AppointmentController>()
                         ? Get.find<AppointmentController>()
                         : Get.put(AppointmentController());
-                    
                     controller.addAppointment(
                       docName: widget.docName,
                       docSpeciality: widget.docSpeciality,
