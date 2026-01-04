@@ -114,10 +114,12 @@ class AppointmentView extends StatelessWidget {
                           color: AppColors.textColor.withOpacity(0.5),
                         ),
                         4.widthBox,
-                        AppStyles.normal(
-                          title: appointment['date']!,
-                          color: AppColors.textColor.withOpacity(0.5),
-                          size: AppSizes.size12,
+                        Flexible(
+                          child: AppStyles.normal(
+                            title: appointment['date']!,
+                            color: AppColors.textColor.withOpacity(0.5),
+                            size: AppSizes.size12,
+                          ),
                         ),
                       ],
                     ),

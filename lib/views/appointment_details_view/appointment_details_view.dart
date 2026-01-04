@@ -119,9 +119,11 @@ class AppointmentDetailsView extends StatelessWidget {
                       size: 20,
                     ),
                     12.widthBox,
-                    AppStyles.normal(
-                      title: selectedDate,
-                      size: AppSizes.size14,
+                    Expanded(
+                      child: AppStyles.normal(
+                        title: selectedDate,
+                        size: AppSizes.size14,
+                      ),
                     ),
                   ],
                 ),

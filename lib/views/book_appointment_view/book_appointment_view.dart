@@ -152,47 +152,53 @@ class _BookAppointmentViewState extends State<BookAppointmentView> {
                   border: Border.all(color: AppColors.blueColor, width: 2),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: days.map((day) {
-                    final isSelected = selectedDay == day['date'];
-                    return GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedDay = day['date'];
-                        });
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: isSelected ? AppColors.blueColor : Colors.transparent,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Column(
-                          children: [
-                            AppStyles.normal(
-                              title: day['day'],
-                              color: isSelected 
-                                ? AppColors.whiteColor 
-                                : AppColors.textColor.withOpacity(0.6),
-                              size: AppSizes.size12,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: days.map((day) {
+                      final isSelected = selectedDay == day['date'];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedDay = day['date'];
+                            });
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 12,
                             ),
-                            4.heightBox,
-                            AppStyles.bold(
-                              title: day['date'].toString(),
-                              color: isSelected 
-                                ? AppColors.whiteColor 
-                                : AppColors.textColor,
-                              size: AppSizes.size18,
+                            decoration: BoxDecoration(
+                              color: isSelected ? AppColors.blueColor : Colors.transparent,
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                          ],
+                            child: Column(
+                              children: [
+                                AppStyles.normal(
+                                  title: day['day'],
+                                  color: isSelected 
+                                    ? AppColors.whiteColor 
+                                    : AppColors.textColor.withOpacity(0.6),
+                                  size: AppSizes.size12,
+                                ),
+                                4.heightBox,
+                                AppStyles.bold(
+                                  title: day['date'].toString(),
+                                  color: isSelected 
+                                    ? AppColors.whiteColor 
+                                    : AppColors.textColor,
+                                  size: AppSizes.size18,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                    );
-                  }).toList(),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ),
               24.heightBox,
