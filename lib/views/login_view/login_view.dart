@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/consts/images.dart';
 import 'package:flutter_application_1/consts/strings.dart';
-import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/controllers/auth_controller.dart';
 import 'package:flutter_application_1/res/components/custom_button.dart';
 import 'package:flutter_application_1/res/components/custum_textfield.dart';
@@ -92,33 +91,7 @@ class _LoginViewState extends State<LoginView> {
                       hint: AppStrings.password,
                       textController: _passwordController,
                       validator: _authController.validatePassword,
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                      obscureText: true,
                     ),
                     20.heightBox,
                     10.heightBox,

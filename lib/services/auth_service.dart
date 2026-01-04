@@ -125,4 +125,29 @@ class AuthService {
   bool isLoggedIn() {
     return _supabase.auth.currentUser != null;
   }
+
+  Future<Map<String, dynamic>> updatePassword(String newPassword) async {
+  try {
+    await _supabase.auth.updateUser(
+      UserAttributes(password: newPassword),
+    );
+    
+    return {
+      'success':  true,
+      'message': 'Password updated successfully',
+    };
+  } on AuthException catch (e) {
+    return {
+      'success': false,
+      'message': e. message,
+    };
+  } catch (e) {
+    return {
+      'success': false,
+      'message': 'An unexpected error occurred:  $e',
+    };
+  }
 }
+
+}
+
