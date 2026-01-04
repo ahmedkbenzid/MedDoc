@@ -44,6 +44,7 @@ class CategoryView extends StatelessWidget {
                   'docName': index < docsNameList.length ? docsNameList[index] : 'Doctor ${index + 1}',
                   'docCategory':  index < category.length ? category[index] : 'Specialist',
                   'docRating': (Random().nextDouble() * 2 + 3).toStringAsFixed(1),
+                  'docImage': index < docsList.length ? docsList[index] : docsList[0],
                 }));
               },
               child: Container(

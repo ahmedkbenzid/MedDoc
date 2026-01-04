@@ -1,8 +1,10 @@
 import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
+import 'package:flutter_application_1/consts/lists.dart';
 import 'package:flutter_application_1/controllers/appointment_controller.dart';
 import 'package:flutter_application_1/views/appointment_details_view/appointment_details_view.dart';
 import 'package:get/get.dart';
+
 
 class AppointmentView extends StatelessWidget {
   const AppointmentView({super.key});
@@ -31,7 +33,7 @@ class AppointmentView extends StatelessWidget {
                 Icon(
                   Icons.calendar_today_outlined,
                   size: 80,
-                  color: AppColors.textColor.withOpacity(0.3),
+                  color: AppColors.textColor. withOpacity(0.3),
                 ),
                 16.heightBox,
                 AppStyles.normal(
@@ -53,6 +55,13 @@ class AppointmentView extends StatelessWidget {
               final isConfirmed = appointment['status'] == 'Confirmed';
               final isCancelled = appointment['status'] == 'Cancelled';
               
+              // Find the index of the doctor's name in docsNameList
+              final docNameIndex = docsNameList.indexOf(appointment['docName'] ?? '');
+              // Get the corresponding image from docsList, or use a default if not found
+              final docImage = docNameIndex != -1 && docNameIndex < docsList.length 
+                  ? docsList[docNameIndex] 
+                  :  null;
+              
               return Dismissible(
                 key: Key(appointment['docName'] + index.toString()),
                 background: Container(
@@ -65,15 +74,15 @@ class AppointmentView extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 20),
                   child: Icon(Icons.delete, color: Colors.white),
                 ),
-                direction: DismissDirection.endToStart,
+                direction:  DismissDirection.endToStart,
                 onDismissed: (direction) {
                   controller.deleteAppointment(index);
                   Get.snackbar(
                     'Deleted',
                     'Appointment deleted',
                     snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.red,
-                    colorText: Colors.white,
+                    backgroundColor:  Colors.red,
+                    colorText: Colors. white,
                   );
                 },
                 child: Container(
@@ -84,18 +93,18 @@ class AppointmentView extends StatelessWidget {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.05),
-                        blurRadius: 4,
+                        blurRadius:  4,
                         offset: const Offset(0, 2),
                       ),
                     ],
                   ),
-                  child: ListTile(
+                  child:  ListTile(
                     contentPadding: const EdgeInsets.all(12),
                     onTap: () {
                       Get.to(() => AppointmentDetailsView(
                         docName: appointment['docName']!,
                         docSpeciality: appointment['docSpeciality']!,
-                        docImage: appointment['docImage'] ?? '',
+                        docImage: docImage ??  '',
                         selectedDate: appointment['date']!,
                         selectedDay: 23,
                         selectedTime: '02:00 PM',
@@ -103,11 +112,11 @@ class AppointmentView extends StatelessWidget {
                     },
                     leading: CircleAvatar(
                       radius: 30,
-                      backgroundColor: AppColors.blueColor.withOpacity(0.1),
-                      backgroundImage: (appointment['docImage'] != null && appointment['docImage'].toString().isNotEmpty)
-                          ? AssetImage(appointment['docImage']) as ImageProvider
+                      backgroundColor: AppColors.blueColor. withOpacity(0.1),
+                      backgroundImage: docImage != null
+                          ? AssetImage(docImage) as ImageProvider
                           : null,
-                      child: (appointment['docImage'] == null || appointment['docImage'].toString().isEmpty)
+                      child: docImage == null
                           ? Icon(Icons.person, size: 30, color: AppColors.blueColor)
                           : null,
                     ),
@@ -116,7 +125,7 @@ class AppointmentView extends StatelessWidget {
                       size: AppSizes.size16,
                     ),
                     subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment:  CrossAxisAlignment.start,
                       children: [
                         4.heightBox,
                         AppStyles.normal(
@@ -129,14 +138,14 @@ class AppointmentView extends StatelessWidget {
                           children: [
                             Icon(
                               Icons.access_time,
-                              size: 14,
+                              size:  14,
                               color: AppColors.textColor.withOpacity(0.5),
                             ),
                             4.widthBox,
                             Flexible(
                               child: AppStyles.normal(
                                 title: appointment['date']!,
-                                color: AppColors.textColor.withOpacity(0.5),
+                                color:  AppColors.textColor.withOpacity(0.5),
                                 size: AppSizes.size12,
                               ),
                             ),
@@ -151,7 +160,7 @@ class AppointmentView extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: isCancelled
-                            ? Colors.red.withOpacity(0.1)
+                            ? Colors.red. withOpacity(0.1)
                             : isConfirmed
                                 ? Colors.green.withOpacity(0.1)
                                 : Colors.orange.withOpacity(0.1),
@@ -163,7 +172,7 @@ class AppointmentView extends StatelessWidget {
                             ? Colors.red
                             : isConfirmed
                                 ? Colors.green
-                                : Colors.orange,
+                                :  Colors.orange,
                         size: AppSizes.size12,
                       ),
                     ),

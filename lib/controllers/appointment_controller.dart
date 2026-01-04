@@ -12,48 +12,7 @@ class AppointmentController extends GetxController {
   }
 
   void _loadSampleAppointments() {
-    appointments.value = [
-      {
-        'docName': 'Dr. John Smith',
-        'docSpeciality': 'Cardiologist',
-        'docImage': 'assets/images/doc1.png', // Ajoutez le chemin approprié
-        'date': 'Wednesday, Jun 23, 2021 | 02:00 PM',
-        'status': 'Confirmed',
-        'reason': 'Regular checkup',
-        'paymentMethod': 'VISA',
-        'totalAmount': 65.00,
-      },
-      {
-        'docName': 'Dr. Sarah Johnson',
-        'docSpeciality': 'Dentist',
-        'docImage': 'assets/images/doc2.png',
-        'date': 'Thursday, Jun 24, 2021 | 10:00 AM',
-        'status': 'Pending',
-        'reason': 'Tooth pain',
-        'paymentMethod': 'Cash',
-        'totalAmount': 50.00,
-      },
-      {
-        'docName': 'Dr. Michael Brown',
-        'docSpeciality': 'Orthopedic',
-        'docImage': 'assets/images/doc3.png',
-        'date': 'Friday, Jun 25, 2021 | 03:00 PM',
-        'status': 'Confirmed',
-        'reason': 'Back pain',
-        'paymentMethod': 'MasterCard',
-        'totalAmount': 80.00,
-      },
-      {
-        'docName': 'Dr. Emily Davis',
-        'docSpeciality': 'Dermatologist',
-        'docImage': 'assets/images/doc4.png',
-        'date': 'Monday, Jun 28, 2021 | 11:00 AM',
-        'status': 'Cancelled',
-        'reason': 'Skin rash',
-        'paymentMethod': 'PayPal',
-        'totalAmount': 45.00,
-      },
-    ];
+    appointments.value = [];
   }
 
   // Ajouter un nouveau rendez-vous
