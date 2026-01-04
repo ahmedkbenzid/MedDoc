@@ -2,17 +2,89 @@ import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/res/components/custom_button.dart';
 import 'package:flutter_application_1/views/book_appointment_view/book_appointment_view.dart';
 import 'package:get/get.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'dart:math';
 
 class DoctorProfileView extends StatelessWidget {
   final Map<String, dynamic> doc;
+  final bool showBookingButton;
 
   const DoctorProfileView({
     super.key,
     required this.doc,
+    this.showBookingButton = true, // default = patient
   });
+
+  // Liste d'adresses prédéfinies en Tunisie
+  static final List<Map<String, dynamic>> _sampleLocations = [
+    {
+      'latitude': 36.8065,
+      'longitude': 10.1815,
+      'address': 'Avenue Habib Bourguiba, Tunis 1000, Tunisia',
+    },
+    {
+      'latitude': 36.8500,
+      'longitude': 10.1950,
+      'address': 'Rue de la Liberté, La Marsa, Tunis, Tunisia',
+    },
+    {
+      'latitude': 36.7525,
+      'longitude': 10.2300,
+      'address': 'Centre Ville, Hammam Lif, Ben Arous, Tunisia',
+    },
+    {
+      'latitude': 36.8380,
+      'longitude': 10.1658,
+      'address': 'Avenue de la République, Le Bardo, Tunis, Tunisia',
+    },
+    {
+      'latitude': 36.8625,
+      'longitude': 10.3272,
+      'address': 'Avenue Farhat Hached, Ariana, Tunisia',
+    },
+    {
+      'latitude': 36.8189,
+      'longitude': 10.1658,
+      'address': 'Rue Ibn Khaldoun, Manouba, Tunisia',
+    },
+    {
+      'latitude': 36.7987,
+      'longitude': 10.1710,
+      'address': 'Avenue Mohamed V, Bab Bhar, Tunis, Tunisia',
+    },
+    {
+      'latitude': 36.8430,
+      'longitude': 10.2400,
+      'address': 'Rue de Carthage, Carthage, Tunisia',
+    },
+  ];
+
+  Map<String, dynamic> _getLocation() {
+    // Si le docteur a déjà une localisation définie
+    if (doc['docLatitude'] != null && doc['docLongitude'] != null) {
+      return {
+        'latitude': doc['docLatitude'],
+        'longitude': doc['docLongitude'],
+        'address': doc['docAddress'] ?? 'Address not available',
+      };
+    }
+    
+    // Sinon, générer une adresse aléatoire basée sur l'ID ou le nom du docteur
+    final random = Random(doc['docName']?.hashCode ?? Random().nextInt(1000));
+    final location = _sampleLocations[random.nextInt(_sampleLocations.length)];
+    
+    return location;
+  }
 
   @override
   Widget build(BuildContext context) {
+    // Obtenir la localisation (réelle ou générée)
+    final location = _getLocation();
+    final double latitude = location['latitude'];
+    final double longitude = location['longitude'];
+    final String address = location['address'];
+
     return Scaffold(
       backgroundColor: AppColors.bgColor,
       appBar: AppBar(
@@ -95,7 +167,58 @@ class DoctorProfileView extends StatelessWidget {
               ),
               24.heightBox,
 
+              // Location Section
+              AppStyles.bold(title: "Location", size: AppSizes.size16),
+              8.heightBox,
+              AppStyles.normal(
+                title: address,
+                color: AppColors.textColor.withOpacity(0.6),
+                size: AppSizes.size14,
+              ),
+              12.heightBox,
+              
+              // Map Container
+              Container(
+                height: 200,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.textColor.withOpacity(0.1)),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: FlutterMap(
+                  options: MapOptions(
+                    initialCenter: LatLng(latitude, longitude),
+                    initialZoom: 15.0,
+                    interactionOptions: InteractionOptions(
+                      flags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
+                    ),
+                  ),
+                  children: [
+                    TileLayer(
+                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                      userAgentPackageName: 'com.example.flutter_application_1',
+                    ),
+                    MarkerLayer(
+                      markers: [
+                        Marker(
+                          point: LatLng(latitude, longitude),
+                          width: 40,
+                          height: 40,
+                          child: Icon(
+                            Icons.location_on,
+                            color: AppColors.blueColor,
+                            size: 40,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              24.heightBox,
+
               // Book Appointment Button
+              if (showBookingButton)
               CustomButton(
                 buttonText: "Book an appointment",
                 onTap: () {
