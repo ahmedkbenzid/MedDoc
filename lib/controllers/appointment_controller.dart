@@ -16,6 +16,7 @@ class AppointmentController extends GetxController {
       {
         'docName': 'Dr. John Smith',
         'docSpeciality': 'Cardiologist',
+        'docImage': 'assets/images/doc1.png', // Ajoutez le chemin approprié
         'date': 'Wednesday, Jun 23, 2021 | 02:00 PM',
         'status': 'Confirmed',
         'reason': 'Regular checkup',
@@ -25,6 +26,7 @@ class AppointmentController extends GetxController {
       {
         'docName': 'Dr. Sarah Johnson',
         'docSpeciality': 'Dentist',
+        'docImage': 'assets/images/doc2.png',
         'date': 'Thursday, Jun 24, 2021 | 10:00 AM',
         'status': 'Pending',
         'reason': 'Tooth pain',
@@ -34,6 +36,7 @@ class AppointmentController extends GetxController {
       {
         'docName': 'Dr. Michael Brown',
         'docSpeciality': 'Orthopedic',
+        'docImage': 'assets/images/doc3.png',
         'date': 'Friday, Jun 25, 2021 | 03:00 PM',
         'status': 'Confirmed',
         'reason': 'Back pain',
@@ -43,6 +46,7 @@ class AppointmentController extends GetxController {
       {
         'docName': 'Dr. Emily Davis',
         'docSpeciality': 'Dermatologist',
+        'docImage': 'assets/images/doc4.png',
         'date': 'Monday, Jun 28, 2021 | 11:00 AM',
         'status': 'Cancelled',
         'reason': 'Skin rash',
@@ -56,6 +60,7 @@ class AppointmentController extends GetxController {
   void addAppointment({
     required String docName,
     required String docSpeciality,
+    String docImage = '',
     required String date,
     required String reason,
     required String paymentMethod,
@@ -64,6 +69,7 @@ class AppointmentController extends GetxController {
     final newAppointment = {
       'docName': docName,
       'docSpeciality': docSpeciality,
+      'docImage': docImage,
       'date': date,
       'status': 'Confirmed',
       'reason': reason,

@@ -1,9 +1,10 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/colors.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/consts/lists.dart';
 import 'package:flutter_application_1/consts/strings.dart';
-import 'package:flutter_application_1/views/category_details_view/category_details_view.dart';
+import 'package:flutter_application_1/views/doctor_profile_view/doctor_profile_view.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/extension_navigation.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -21,7 +22,7 @@ class CategoryView extends StatelessWidget {
         title: AppStyles.bold(
           title: AppStrings.category,
           size: AppSizes.size18,
-          color: AppColors.whiteColor
+          color: AppColors. whiteColor
         ),
       ),
       body: Padding(
@@ -37,8 +38,13 @@ class CategoryView extends StatelessWidget {
           itemCount: iconsList.length,
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
-              onTap: () {
-                Get.to(()=> CategoryDetailsView());
+              onTap:  () {
+                // Navigate to doctor profile with matching category index
+                Get.to(() => DoctorProfileView(doc: {
+                  'docName': index < docsNameList.length ? docsNameList[index] : 'Doctor ${index + 1}',
+                  'docCategory':  index < category.length ? category[index] : 'Specialist',
+                  'docRating': (Random().nextDouble() * 2 + 3).toStringAsFixed(1),
+                }));
               },
               child: Container(
                 padding: EdgeInsets.all(10),
@@ -48,10 +54,10 @@ class CategoryView extends StatelessWidget {
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:  CrossAxisAlignment.start,
                   children: [
                     Align(
-                      alignment: Alignment.center,
+                      alignment:  Alignment.center,
                       child: Image.asset(
                         iconsList[index], 
                         width: 60,
@@ -66,7 +72,7 @@ class CategoryView extends StatelessWidget {
                     ),
                     10.heightBox,
                     AppStyles.normal(
-                      title: "1 spetialist",
+                      title: "1 specialists",
                       color: AppColors.textColor.withOpacity(0.5),
                       size: AppSizes.size12,
                     ),

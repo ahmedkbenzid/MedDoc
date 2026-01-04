@@ -112,7 +112,12 @@ class DoctorProfileView extends StatelessWidget {
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: AppColors.blueColor.withOpacity(0.1),
-                    child: Icon(Icons.person, size: 50, color: AppColors.blueColor),
+                    backgroundImage: (doc['docImage'] != null && doc['docImage'].toString().isNotEmpty)
+                        ? AssetImage(doc['docImage']) as ImageProvider
+                        : null,
+                    child: (doc['docImage'] == null || doc['docImage'].toString().isEmpty)
+                        ? Icon(Icons.person, size: 50, color: AppColors.blueColor)
+                        : null,
                   ),
                   16.widthBox,
                   Expanded(
@@ -225,6 +230,7 @@ class DoctorProfileView extends StatelessWidget {
                   Get.to(() => BookAppointmentView(
                     docName: doc['docName'] ?? 'Doctor',
                     docSpeciality: doc['docCategory'] ?? 'Specialist',
+                    docImage: doc['docImage'] ?? '',
                     docRating: doc['docRating'] ?? '4.7',
                   ));
                 },
