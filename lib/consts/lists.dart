@@ -1,4 +1,6 @@
 import 'package:flutter_application_1/consts/consts.dart';
+import 'package:flutter_application_1/consts/images.dart';
+import 'package:flutter_application_1/consts/strings.dart';
 
 var iconsList = [
   AppAssets.icBody,
@@ -53,7 +55,7 @@ var docsNameList = [
 
 ];
 
-var category =["General","Otolaryngologist", "Cardiologist" ,"Chest doctor", "Hepatologist","Nephrologist" , "Ophthalmologist","Gastroenterologist", "Dentist"];
+var category =["General","Otolaryngologist", "Hepatologist","Chest doctor" ,"Cardiologist" ,"Nephrologist" , "Ophthalmologist","Gastroenterologist", "Dentist"];
 var settingsList = [
   AppStrings.changepwd,
   AppStrings.termConditions,
