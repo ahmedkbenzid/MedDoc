@@ -9,6 +9,9 @@ var iconsList = [
   AppAssets.icLungs,
   AppAssets.icHeart,
   AppAssets.ickidney,
+  AppAssets.icEye,
+  AppAssets.icStomach,
+  AppAssets.icTooth,
 
 ];
 
@@ -19,6 +22,9 @@ var iconsTitleList = [
   AppStrings.lungs,
   AppStrings.heart,
   AppStrings.kidney,
+  "Eye",
+  "Stomach",
+  "Tooth",
 ];
 
 var docsList = [
@@ -49,7 +55,7 @@ var docsNameList = [
 
 ];
 
-var category =["Cardiologist","Dentist","Eye Specialist","Therapist","Surgeon","Pediatrician"];
+var category =["General","Otolaryngologist", "Cardiologist" ,"Chest doctor", "Hepatologist","Nephrologist" , "Ophthalmologist","Gastroenterologist", "Dentist"];
 var settingsList = [
   AppStrings.changepwd,
   AppStrings.termConditions,

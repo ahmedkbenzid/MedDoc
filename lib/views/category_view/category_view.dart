@@ -66,7 +66,7 @@ class CategoryView extends StatelessWidget {
                     ),
                     10.heightBox,
                     AppStyles.normal(
-                      title: "13 spetialists",
+                      title: "1 spetialist",
                       color: AppColors.textColor.withOpacity(0.5),
                       size: AppSizes.size12,
                     ),
