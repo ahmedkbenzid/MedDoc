@@ -11,10 +11,12 @@ import 'dart:math';
 
 class DoctorProfileView extends StatelessWidget {
   final Map<String, dynamic> doc;
+  final bool showBookingButton;
 
   const DoctorProfileView({
     super.key,
     required this.doc,
+    this.showBookingButton = true, // default = patient
   });
 
   // Liste d'adresses prédéfinies en Tunisie
@@ -219,6 +221,7 @@ class DoctorProfileView extends StatelessWidget {
               24.heightBox,
 
               // Book Appointment Button
+              if (showBookingButton)
               CustomButton(
                 buttonText: "Book an appointment",
                 onTap: () {

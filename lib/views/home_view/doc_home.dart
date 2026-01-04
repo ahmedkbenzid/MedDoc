@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/consts/images.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_application_1/views/doctor/doctor_appointment/appointmen
 import 'package:flutter_application_1/views/doctor/doctor_profile/profile_view.dart';
 import 'package:flutter_application_1/views/doctor/doctor_communication/message_list_view.dart';
 import 'package:flutter_application_1/views/doctor/patient_records/patient_list_view.dart';
+import 'package:flutter_application_1/views/doctor_profile_view/doctor_profile_view.dart';
 import 'package:flutter_application_1/views/settings_view/settings_view.dart';
 import 'package:flutter_application_1/services/auth_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -85,7 +88,7 @@ class _DoctorHomeViewState extends State<DoctorHomeView> {
     if (currentUser != null) {
       setState(() {
         String fullName = currentUser.userMetadata?['full_name'] ??  "";
-        doctorName = "Welcome Dr. $fullName";
+        doctorName =fullName;
       });
     }
   }
@@ -126,7 +129,7 @@ class _DoctorHomeViewState extends State<DoctorHomeView> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         AppStyles.bold(
-                          title: doctorName,
+                          title: "Welecom Dr. $doctorName",
                           color: AppColors.whiteColor,
                           size: AppSizes.size16,
                         ),
@@ -145,7 +148,12 @@ class _DoctorHomeViewState extends State<DoctorHomeView> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const ProfileView()),
+                        MaterialPageRoute(builder: (_) => DoctorProfileView(
+                          doc: {
+                          'docName': doctorName,
+                          'docRating': (Random().nextDouble() * 2 + 3).toStringAsFixed(1),
+                        },
+                        showBookingButton: false,)),
                       );
                     },
                   ),
