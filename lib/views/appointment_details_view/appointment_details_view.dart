@@ -475,8 +475,10 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
                       return;
                     }
                     
-                    // Ajouter le rendez-vous au contrôleur
-                    final AppointmentController controller = Get.put(AppointmentController());
+                    // Obtenir ou créer le contrôleur
+                    final AppointmentController controller = Get.isRegistered<AppointmentController>()
+                        ? Get.find<AppointmentController>()
+                        : Get.put(AppointmentController());
                     controller.addAppointment(
                       docName: widget.docName,
                       docSpeciality: widget.docSpeciality,
@@ -494,7 +496,6 @@ class _AppointmentDetailsViewState extends State<AppointmentDetailsView> {
                       snackPosition: SnackPosition.BOTTOM,
                     );
                     
-                    // Retourner à la page précédente après 1 seconde
                     Future.delayed(Duration(seconds: 1), () {
                       Get.back();
                       Get.back();
