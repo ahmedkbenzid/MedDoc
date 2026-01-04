@@ -100,7 +100,11 @@ class HomeView extends StatelessWidget {
     children: List.generate(3, (index) {
       return GestureDetector(
         onTap: () {
-          Get.to(() => const DoctorProfileView());
+          Get.to(() => DoctorProfileView(doc: {
+            'docName': docsNameList[index],
+            'docCategory': category[index],
+            'docRating': '4.7', // You can replace this with actual rating if available
+          }));
         },
         child: Container(
           clipBehavior: Clip.hardEdge,

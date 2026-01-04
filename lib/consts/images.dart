@@ -13,5 +13,12 @@ imgSignup = "assets/images/img_signup.png",
 imgWelcome = "assets/images/img_welcome.png",
 imgDoc1 = "assets/images/img_doc1.jpg",
 imgDoc2 = "assets/images/img_doc2.jpg",
-imgDoc3 = "assets/images/img_doc3.jpg";
+imgDoc4 = "assets/images/img_doc4.png",
+imgDoc3 = "assets/images/img_doc3.jpg",
+imgDoc5 = "assets/images/img_doc5.png",
+imgDoc6 = "assets/images/img_doc6.png",
+imgDoc7 = "assets/images/img_doc7.webp",
+imgDoc8 = "assets/images/img_doc8.png",
+imgDoc9 = "assets/images/img_doc9.png",
+imgDoc10 = "assets/images/img_doc10.png";
 }

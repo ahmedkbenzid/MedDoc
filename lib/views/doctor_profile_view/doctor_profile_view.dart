@@ -4,128 +4,113 @@ import 'package:flutter_application_1/consts/consts.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/res/components/custom_button.dart';
 import 'package:flutter_application_1/views/book_appointment_view/book_appointment_view.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
+import 'package:get/get.dart';
 
 class DoctorProfileView extends StatelessWidget {
-  const DoctorProfileView({super.key});
+  final Map<String, dynamic> doc;
+
+  const DoctorProfileView({
+    super.key,
+    required this.doc,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bgColor,
       appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: AppColors.blueColor,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back, color: AppColors.textColor),
+          onPressed: () => Get.back(),
+        ),
         title: AppStyles.bold(
-          title: "Doctor Name",
+          title: "Doctor Profile",
           size: AppSizes.size18,
-          color: AppColors.whiteColor
+          color: AppColors.textColor,
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: EdgeInsets.all(12),
-                height: 100,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12)
-                ),
-                child: Row(
-                  children: [
-                    CircleAvatar(
-                      radius: 40,
-                      child: Image.asset(AppAssets.imgSignup),
-                    ),
-                    10.widthBox,
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          AppStyles.bold(title: "Doctor Name",size: AppSizes.size14,color: AppColors.textColor),
-                          AppStyles.bold(title: "Category",size: AppSizes.size14,color: AppColors.textColor.withOpacity(0.5)),
-                          const Spacer(),
-                          VxRating(
-                            selectionColor: AppColors.yellowColor,
-                            onRatingUpdate: (value){},
-                            maxRating: 5,
-                            count: 5,
-                            value: 4,
-                            stepInt: true,
-                      
-                          )
-                        ],
-                      ),
-                    ),
-                    AppStyles.bold(title: "See all reviews",size: AppSizes.size12,color: AppColors.blueColor),
-                  ],
-                ),
-              ),
-              10.heightBox,
-              Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12),
-                  color: AppColors.whiteColor,
-          
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(
-                      title: AppStyles.bold(title: "Phone Number", color: AppColors.textColor,),
-                      subtitle: AppStyles.normal(
-                        title: "+216 55 333 000", 
-                        color: AppColors.textColor.withOpacity(0.5),
-                        size: AppSizes.size12
-                      ),
-                      trailing: Container(
-                        width: 50,
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12),
-                          color: AppColors.yellowColor,
+              // Doctor Info Card
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 50,
+                    backgroundColor: AppColors.blueColor.withOpacity(0.1),
+                    child: Icon(Icons.person, size: 50, color: AppColors.blueColor),
+                  ),
+                  16.widthBox,
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AppStyles.bold(
+                          title: doc['docName'] ?? 'Doctor Name',
+                          size: AppSizes.size20,
                         ),
-                        child: Icon(
-                          Icons.phone, 
-                          color: AppColors.whiteColor,
-                        )
-                      ),
+                        4.heightBox,
+                        AppStyles.normal(
+                          title: doc['docCategory'] ?? 'Specialist',
+                          color: AppColors.textColor.withOpacity(0.6),
+                          size: AppSizes.size14,
+                        ),
+                        8.heightBox,
+                        Row(
+                          children: [
+                            Icon(Icons.star, color: AppColors.blueColor, size: 18),
+                            4.widthBox,
+                            AppStyles.bold(
+                              title: doc['docRating'] ?? '4.7',
+                              size: AppSizes.size14,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                    10.heightBox,
-                    AppStyles.bold(title: "About", color: AppColors.textColor,size: AppSizes.size16),
-                    5.heightBox,
-                    AppStyles.normal(title: "This is the about section of a doctor", color: AppColors.textColor.withOpacity(0.5), size: AppSizes.size12),
-                    10.heightBox,
-                    AppStyles.bold(title: "Address", color: AppColors.textColor,size: AppSizes.size16),
-                    5.heightBox,
-                    AppStyles.normal(title: "Address of a doctor", color: AppColors.textColor.withOpacity(0.5), size: AppSizes.size12),
-                    10.heightBox,
-                    AppStyles.bold(title: "Working Time", color: AppColors.textColor,size: AppSizes.size16),
-                    5.heightBox,
-                    AppStyles.normal(title: "09:00 AM to 12:00 PM", color: AppColors.textColor.withOpacity(0.5), size: AppSizes.size12),
-                    10.heightBox,
-                    AppStyles.bold(title: "Services", color: AppColors.textColor,size: AppSizes.size16),
-                    5.heightBox,
-                    AppStyles.normal(title: "This is the service section of a doctor", color: AppColors.textColor.withOpacity(0.5), size: AppSizes.size12),
-                    10.heightBox,
-                  ],
-                ),
+                  ),
+                ],
+              ),
+              24.heightBox,
+
+              // About Section
+              AppStyles.bold(title: "About", size: AppSizes.size16),
+              8.heightBox,
+              AppStyles.normal(
+                title: doc['docAbout'] ?? "Experienced medical professional dedicated to providing quality healthcare.",
+                color: AppColors.textColor.withOpacity(0.6),
+                size: AppSizes.size14,
+              ),
+              24.heightBox,
+
+              // Experience
+              AppStyles.bold(title: "Experience", size: AppSizes.size16),
+              8.heightBox,
+              AppStyles.normal(
+                title: "${doc['docExperience'] ?? '5'} years",
+                color: AppColors.textColor.withOpacity(0.6),
+                size: AppSizes.size14,
+              ),
+              24.heightBox,
+
+              // Book Appointment Button
+              CustomButton(
+                buttonText: "Book an appointment",
+                onTap: () {
+                  Get.to(() => BookAppointmentView(
+                    docName: doc['docName'] ?? 'Doctor',
+                    docSpeciality: doc['docCategory'] ?? 'Specialist',
+                    docRating: doc['docRating'] ?? '4.7',
+                  ));
+                },
               ),
             ],
           ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: CustomButton(
-          onTap: (){
-            Get.to(() => BookAppointmentView());
-          } , 
-          buttonText: "Book an appointment",
         ),
       ),
     );

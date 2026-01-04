@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/fonts.dart';
 import 'package:flutter_application_1/consts/images.dart';
@@ -106,6 +107,8 @@ class _LoginViewState extends State<LoginView> {
                             buttonText: AppStrings.login,
                             onTap: _handleLogin,
                           )),
+
+
                     20.heightBox,
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
