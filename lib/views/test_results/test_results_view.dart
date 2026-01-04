@@ -10,14 +10,13 @@ class TestResultsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mock test results data
     final testResults = List.generate(
       5,
       (index) => {
         'date': '2026-01-${(index + 1).toString().padLeft(2, '0')}',
         'testName': '$testType - Test ${index + 1}',
         'status': index % 2 == 0 ? 'Normal' : 'Pending Review',
-        'doctor': 'Dr. ${['Ahmed', 'Sarah', 'John', 'Emily', 'Michael'][index]}',
+        'doctor': ['Ahmed', 'Sarah', 'John', 'Emily', 'Michael'][index],
       },
     );
 
@@ -25,7 +24,7 @@ class TestResultsView extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: AppColors.blueColor,
-        title: AppStyles. bold(
+        title: AppStyles.bold(
           title: "$testType Results",
           size: AppSizes.size18,
           color: AppColors.whiteColor,
@@ -34,7 +33,7 @@ class TestResultsView extends StatelessWidget {
       body: testResults.isEmpty
           ? Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment. center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.assignment_outlined,
@@ -57,36 +56,35 @@ class TestResultsView extends StatelessWidget {
                 final isNormal = result['status'] == 'Normal';
 
                 return GestureDetector(
-                  onTap: () {
-                    // Navigate to detailed test result view
-                    _showTestDetailDialog(context, result);
-                  },
+                  onTap: () => _showTestDetailDialog(context, result),
                   child: Container(
-                    margin:  const EdgeInsets.only(bottom: 12),
+                    margin: const EdgeInsets.only(bottom: 12),
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: AppColors. bgDarkColor,
+                      color: AppColors.bgDarkColor,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
                         color: isNormal
-                            ? Colors.green. withOpacity(0.3)
+                            ? Colors.green.withOpacity(0.3)
                             : Colors.orange.withOpacity(0.3),
-                        width: 1,
                       ),
                     ),
                     child: Row(
                       children: [
                         Container(
-                          padding:  const EdgeInsets.all(12),
+                          padding: const EdgeInsets.all(12),
                           decoration: BoxDecoration(
                             color: isNormal
-                                ? Colors. green.withOpacity(0.1)
+                                ? Colors.green.withOpacity(0.1)
                                 : Colors.orange.withOpacity(0.1),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Icon(
-                            isNormal ?  Icons.check_circle : Icons. pending,
-                            color: isNormal ? Colors.green : Colors. orange,
+                            isNormal
+                                ? Icons.check_circle
+                                : Icons.pending,
+                            color:
+                                isNormal ? Colors.green : Colors.orange,
                             size: 30,
                           ),
                         ),
@@ -96,21 +94,21 @@ class TestResultsView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               AppStyles.bold(
-                                title: result['testName']!,
+                                title: result['testName'] ?? '',
                                 size: AppSizes.size14,
                                 color: AppColors.textColor,
                               ),
                               6.heightBox,
                               AppStyles.normal(
-                                title: "Date:  ${result['date']}",
-                                color: AppColors.textColor.withOpacity(0.6),
+                                title: "Date: ${result['date']}",
                                 size: AppSizes.size12,
+                                color: AppColors.textColor.withOpacity(0.6),
                               ),
                               4.heightBox,
                               AppStyles.normal(
                                 title: "Doctor: ${result['doctor']}",
-                                color:  AppColors.textColor.withOpacity(0.6),
                                 size: AppSizes.size12,
+                                color: AppColors.textColor.withOpacity(0.6),
                               ),
                             ],
                           ),
@@ -119,19 +117,19 @@ class TestResultsView extends StatelessWidget {
                           children: [
                             Container(
                               padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                                vertical: 6,
-                              ),
+                                  horizontal: 12, vertical: 6),
                               decoration: BoxDecoration(
                                 color: isNormal
                                     ? Colors.green.withOpacity(0.2)
-                                    : Colors.orange. withOpacity(0.2),
+                                    : Colors.orange.withOpacity(0.2),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: AppStyles.normal(
-                                title: result['status']!,
-                                color: isNormal ? Colors. green : Colors.orange,
+                                title: result['status'] ?? '',
                                 size: AppSizes.size12,
+                                color: isNormal
+                                    ? Colors.green
+                                    : Colors.orange,
                               ),
                             ),
                             8.heightBox,
@@ -151,63 +149,91 @@ class TestResultsView extends StatelessWidget {
     );
   }
 
-  void _showTestDetailDialog(BuildContext context, Map<String, String> result) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: AppStyles.bold(title: result['testName']!),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDetailRow("Date", result['date']!),
-            _buildDetailRow("Status", result['status']!),
-            _buildDetailRow("Doctor", result['doctor']!),
-            16.heightBox,
-            AppStyles.normal(
-              title: "Detailed results and interpretations will be available here.",
-              color: AppColors. textColor.withOpacity(0.7),
-              size: AppSizes.size12,
-            ),
-          ],
+  void _showTestDetailDialog(
+    BuildContext context, Map<String, String> result) {
+  showDialog(
+    context: context,
+    barrierDismissible: true,
+    builder: (context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Close"),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: 420,
           ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors. blueColor,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  AppStyles.bold(
+                    title: result['testName'] ?? '',
+                    size: AppSizes.size16,
+                  ),
+                  const SizedBox(height: 16),
+
+                  _buildDetailRow("Date", result['date'] ?? ''),
+                  _buildDetailRow("Status", result['status'] ?? ''),
+                  _buildDetailRow("Doctor", result['doctor'] ?? ''),
+
+                  const SizedBox(height: 20),
+
+                  AppStyles.normal(
+                    title:
+                        "Detailed results and interpretations will be available here.",
+                    size: AppSizes.size12,
+                    color: AppColors.textColor.withOpacity(0.7),
+                  ),
+
+                  const SizedBox(height: 24),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text("Close"),
+                      ),
+                      const SizedBox(width: 8),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.blueColor,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Downloading test result..."),
+                            ),
+                          );
+                        },
+                        child: const Text("Download PDF"),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-            onPressed: () {
-              Navigator.pop(context);
-              // Add download/share functionality here
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Downloading test result...")),
-              );
-            },
-            child: const Text("Download PDF"),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      );
+    },
+  );
+}
+
 
   Widget _buildDetailRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
-          AppStyles.bold(
-            title: "$label:  ",
-            size: AppSizes.size14,
-          ),
+          AppStyles.bold(title: "$label: ", size: AppSizes.size14),
           Expanded(
-            child: AppStyles.normal(
-              title: value,
-              size: AppSizes.size14,
-            ),
+            child: AppStyles.normal(title: value, size: AppSizes.size14),
           ),
         ],
       ),
