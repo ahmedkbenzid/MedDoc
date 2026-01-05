@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/consts/colors.dart';
+import 'package:flutter_application_1/models/reminder.dart';
+import 'package:flutter_application_1/services/reminder_service.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class AddReminderView extends StatefulWidget {
-  final String? patientName;
-  final String? message;
-  final String? dateTime;
+  final Reminder? reminder;
 
-  const AddReminderView({super.key, this.patientName, this.message, this.dateTime});
+  const AddReminderView({super.key, this.reminder});
 
   @override
   State<AddReminderView> createState() => _AddReminderViewState();
@@ -17,14 +17,15 @@ class _AddReminderViewState extends State<AddReminderView> {
   final TextEditingController _patientController = TextEditingController();
   final TextEditingController _messageController = TextEditingController();
   DateTime? _selectedDateTime;
+  final ReminderService _service = ReminderService();
 
   @override
   void initState() {
     super.initState();
-    _patientController.text = widget.patientName ?? '';
-    _messageController.text = widget.message ?? '';
-    if (widget.dateTime != null) {
-      _selectedDateTime = DateTime.tryParse(widget.dateTime!);
+    if (widget.reminder != null) {
+      _patientController.text = widget.reminder!.patientName;
+      _messageController.text = widget.reminder!.message;
+      _selectedDateTime = widget.reminder!.dateTime;
     }
   }
 
@@ -48,11 +49,33 @@ class _AddReminderViewState extends State<AddReminderView> {
     });
   }
 
+  void _saveReminder() async {
+    if (_patientController.text.isEmpty || _messageController.text.isEmpty || _selectedDateTime == null) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Veuillez remplir tous les champs")));
+      return;
+    }
+
+    final reminder = Reminder(
+      id: widget.reminder?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
+      patientName: _patientController.text,
+      message: _messageController.text,
+      dateTime: _selectedDateTime!,
+    );
+
+    if (widget.reminder != null) {
+      await _service.updateReminder(reminder);
+    } else {
+      await _service.addReminder(reminder);
+    }
+
+    Navigator.pop(context, true); // Retourne true pour rafraîchir la liste
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.patientName != null ? "Edit Reminder" : "Add Reminder"),
+        title: Text(widget.reminder != null ? "Edit Reminder" : "Add Reminder"),
         backgroundColor: AppColors.blueColor,
       ),
       body: Padding(
@@ -78,22 +101,13 @@ class _AddReminderViewState extends State<AddReminderView> {
                         : "Select Date & Time",
                   ),
                 ),
-                TextButton(
-                  onPressed: _pickDateTime,
-                  child: const Text("Pick"),
-                ),
+                TextButton(onPressed: _pickDateTime, child: const Text("Pick")),
               ],
             ),
             20.heightBox,
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: AppColors.blueColor),
-              onPressed: () {
-                // Pour l'instant juste un snack bar
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Reminder saved (mock)")),
-                );
-                Navigator.pop(context);
-              },
+              onPressed: _saveReminder,
               child: const Text("Save"),
             ),
           ],
