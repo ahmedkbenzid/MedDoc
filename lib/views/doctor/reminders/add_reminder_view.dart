@@ -55,20 +55,31 @@ class _AddReminderViewState extends State<AddReminderView> {
       return;
     }
 
-    final reminder = Reminder(
-      id: widget.reminder?.id ?? DateTime.now().millisecondsSinceEpoch.toString(),
-      patientName: _patientController.text,
-      message: _messageController.text,
-      dateTime: _selectedDateTime!,
-    );
+    try {
+      if (widget.reminder != null) {
+        // Update existing reminder
+        final reminder = Reminder(
+          id: widget.reminder!.id,
+          patientName: _patientController.text,
+          message: _messageController.text,
+          dateTime: _selectedDateTime!,
+        );
+        await _service.updateReminder(reminder);
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Reminder mis à jour avec succès")));
+      } else {
+        // Add new reminder (without ID, let Supabase generate it)
+        await _service.addReminder(
+          patientName: _patientController.text,
+          message: _messageController.text,
+          dateTime: _selectedDateTime!,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Reminder ajouté avec succès")));
+      }
 
-    if (widget.reminder != null) {
-      await _service.updateReminder(reminder);
-    } else {
-      await _service.addReminder(reminder);
+      Navigator.pop(context, true);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Erreur: $e")));
     }
-
-    Navigator.pop(context, true); // Retourne true pour rafraîchir la liste
   }
 
   @override

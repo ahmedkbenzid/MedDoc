@@ -24,7 +24,9 @@ class _RemindersViewState extends State<RemindersView> {
   }
 
   void _loadReminders() {
-    _remindersFuture = _service.getReminders();
+    setState(() {
+      _remindersFuture = _service.getReminders();
+    });
   }
 
   @override
