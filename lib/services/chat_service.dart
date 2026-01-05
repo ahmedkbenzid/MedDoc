@@ -4,15 +4,19 @@ import '../models/message.dart';
 class ChatService {
   final supabase = Supabase.instance.client;
 
-  // UUID exact du docteur (celui utilisé dans Supabase)
-  final String doctorId = '11111111-1111-1111-1111-111111111111';
+  // Récupérer l'UUID du docteur connecté
+  String? get _currentDoctorId => supabase.auth.currentUser?.id;
 
   /// 🔹 Récupérer tous les messages d’un patient
   Future<List<Message>> getMessages(String patientId) async {
+    if (_currentDoctorId == null) {
+      throw Exception('Utilisateur non connecté');
+    }
+
     final response = await supabase
         .from('messages')
         .select()
-        .eq('doctor_id', doctorId)
+        .eq('doctor_id', _currentDoctorId!)
         .eq('patient_id', patientId)
         .order('created_at', ascending: true);
 
@@ -23,10 +27,14 @@ class ChatService {
 
   /// 🔹 Récupérer le dernier message par patient
   Future<List<Map<String, dynamic>>> getPatientsLastMessage() async {
+    if (_currentDoctorId == null) {
+      throw Exception('Utilisateur non connecté');
+    }
+
     final response = await supabase
         .from('messages')
         .select()
-        .eq('doctor_id', doctorId)
+        .eq('doctor_id', _currentDoctorId!)
         .order('created_at', ascending: false);
 
     final allMessages = (response as List).map((e) => Map<String, dynamic>.from(e)).toList();
@@ -49,8 +57,12 @@ class ChatService {
     required String patientName,
     required String content,
   }) async {
+    if (_currentDoctorId == null) {
+      throw Exception('Utilisateur non connecté');
+    }
+
     await supabase.from('messages').insert({
-      'doctor_id': doctorId,
+      'doctor_id': _currentDoctorId!,
       'patient_id': patientId,
       'patient_name': patientName,
       'content': content,

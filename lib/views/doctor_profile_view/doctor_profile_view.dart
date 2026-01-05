@@ -214,6 +214,7 @@ class DoctorProfileView extends StatelessWidget {
                     docSpeciality: doc['docCategory'] ?? 'Specialist',
                     docImage: docImage, // Pass the resolved image
                     docRating:  doc['docRating'] ?? '4.7',
+              
                   ));
                 },
               ),

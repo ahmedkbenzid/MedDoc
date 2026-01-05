@@ -102,6 +102,7 @@ class AppointmentView extends StatelessWidget {
                     contentPadding: const EdgeInsets.all(12),
                     onTap: () {
                       Get.to(() => AppointmentDetailsView(
+                  
                         docName: appointment['docName']!,
                         docSpeciality: appointment['docSpeciality']!,
                         docImage: docImage ??  '',
